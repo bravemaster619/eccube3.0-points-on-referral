@@ -1,0 +1,27 @@
+Plugin\PointsOnReferral\Entity\PointsOnReferralConfig:
+  type: entity
+  table: plg_points_on_referral_config
+  repositoryClass: Plugin\PointsOnReferral\Repository\PointsOnReferralConfigRepository
+  options:
+    comment: 'Configuration for PointsOnReferral Plugin'
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      id: true
+      generator:
+        strategy: AUTO
+  fields:
+    referrer_rewards:
+      type: integer
+      options:
+        default: 0
+        unsigned: true
+        comment: 'Referrer rewards point'
+    referee_rewards:
+      type: integer
+      options:
+        default: 0
+        unsigned: true
+        comment: 'Referee rewards point'

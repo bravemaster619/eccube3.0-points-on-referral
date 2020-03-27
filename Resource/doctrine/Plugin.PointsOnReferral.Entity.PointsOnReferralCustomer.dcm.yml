@@ -1,0 +1,25 @@
+Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer:
+  type: entity
+  table: plg_PointsOnReferral_customer
+  repositoryClass: Plugin\PointsOnReferral\Repository\PointsOnReferralCustomerRepository
+  options:
+    comment: 'Customer Referral Info'
+  id:
+    id:
+      type: integer
+      nullable: false
+      unsigned: false
+      id: true
+      column: plg_pointsonreferral_customer_id
+      generator:
+        strategy: AUTO
+  fields:
+    customer_id:
+      type: integer
+      unsigned: false
+    referrer_id:
+      type: integer
+      unsigned: false
+    referral_code:
+      type: string
+      nullable: false
