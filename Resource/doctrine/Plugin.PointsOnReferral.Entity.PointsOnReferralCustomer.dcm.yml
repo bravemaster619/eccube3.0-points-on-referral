@@ -2,10 +2,14 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer:
   type: entity
   table: plg_PointsOnReferral_customer
   repositoryClass: Plugin\PointsOnReferral\Repository\PointsOnReferralCustomerRepository
+  uniqueConstraints:
+    referral_code:
+      columns:
+        - referral_code
   options:
-    comment: 'Customer Referral Info'
+    comment: 'Customer Referral Info for PointsOnReferral Plugin'
   id:
-    id:
+    pointsonreferral_customer_id:
       type: integer
       nullable: false
       unsigned: false
@@ -20,6 +24,35 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer:
     referrer_id:
       type: integer
       unsigned: false
+      options:
+        comment: 'Referrer customer id, it is not a plugin customer id'
     referral_code:
       type: string
       nullable: false
+    create_date:
+      type: datetime
+      nullable: false
+    update_date:
+      type: datetime
+      nullable: false
+  manyToOne:
+    Customer:
+      targetEntity: Eccube\Entity\Customer
+        joinColumn:
+          name: customer_id
+          referencedColumnName: customer_id
+    PointCustomer:
+      targetEntity: Plugin\Point\Entity\PointCustomer
+      joinColumn:
+        name: customer_id
+        referencedColumnName: customer_id
+    ReferrerCustomer:
+      targetEntity: Eccube\Entity\Customer
+        joinColumn:
+          name: referrer_id
+          referencedColumnName: customer_id
+    ReferrerPointCustomer:
+      targetEntity: Plugin\Point\Entity\PointCustomer
+        joinColumn:
+          name: referrer_id
+          referencedColumnName: customer_id

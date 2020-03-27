@@ -13,15 +13,31 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralConfig:
       generator:
         strategy: AUTO
   fields:
+    referrer_rewards_enabled:
+      type: smallint
+      options:
+        default: 0
+        comment: '0 if referrer rewards disabled, otherwise enabled'
     referrer_rewards:
       type: integer
       options:
         default: 0
         unsigned: true
         comment: 'Referrer rewards point'
+    referee_rewards_enabled:
+      type: smallint
+      options:
+        default: 0
+        comment: '0 if referee rewards disabled, otherwise enabled'
     referee_rewards:
       type: integer
       options:
         default: 0
         unsigned: true
         comment: 'Referee rewards point'
+    create_date:
+      type: datetime
+      nullable: false
+    update_date:
+      type: datetime
+      nullable: false

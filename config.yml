@@ -1,3 +1,5 @@
 name: 友達紹介ポイント
 code: PointsOnReferral
 version: 0.1.0
+orm.path:
+  - /Resource/doctrine
