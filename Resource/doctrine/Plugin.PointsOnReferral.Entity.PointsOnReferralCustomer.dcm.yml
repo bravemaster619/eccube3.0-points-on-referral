@@ -39,21 +39,13 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer:
   manyToOne:
     Customer:
       targetEntity: Eccube\Entity\Customer
-      joinColumn:
-        name: customer_id
-        referencedColumnName: customer_id
-    PointCustomer:
-      targetEntity: Plugin\Point\Entity\PointCustomer
+      cascade: ["persist"]
       joinColumn:
         name: customer_id
         referencedColumnName: customer_id
     ReferrerCustomer:
       targetEntity: Eccube\Entity\Customer
-      joinColumn:
-        name: referrer_id
-        referencedColumnName: customer_id
-    ReferrerPointCustomer:
-      targetEntity: Plugin\Point\Entity\PointCustomer
+      cascade: ["persist"]
       joinColumn:
         name: referrer_id
         referencedColumnName: customer_id
