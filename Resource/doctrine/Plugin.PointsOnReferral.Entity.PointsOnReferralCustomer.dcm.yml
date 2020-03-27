@@ -24,6 +24,7 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer:
     referrer_id:
       type: integer
       unsigned: false
+      nullable: true
       options:
         comment: 'Referrer customer id, it is not a plugin customer id'
     referral_code:
@@ -38,9 +39,9 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer:
   manyToOne:
     Customer:
       targetEntity: Eccube\Entity\Customer
-        joinColumn:
-          name: customer_id
-          referencedColumnName: customer_id
+      joinColumn:
+        name: customer_id
+        referencedColumnName: customer_id
     PointCustomer:
       targetEntity: Plugin\Point\Entity\PointCustomer
       joinColumn:
@@ -48,11 +49,11 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer:
         referencedColumnName: customer_id
     ReferrerCustomer:
       targetEntity: Eccube\Entity\Customer
-        joinColumn:
-          name: referrer_id
-          referencedColumnName: customer_id
+      joinColumn:
+        name: referrer_id
+        referencedColumnName: customer_id
     ReferrerPointCustomer:
       targetEntity: Plugin\Point\Entity\PointCustomer
-        joinColumn:
-          name: referrer_id
-          referencedColumnName: customer_id
+      joinColumn:
+        name: referrer_id
+        referencedColumnName: customer_id
