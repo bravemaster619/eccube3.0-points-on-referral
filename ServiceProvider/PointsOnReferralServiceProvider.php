@@ -10,6 +10,17 @@ class PointsOnReferralServiceProvider implements ServiceProviderInterface {
     public function register(BaseApplication $app) {
         self::registerMessage($app);
 
+        // register repositories
+        $app['eccube.plugin.pointsonreferral.repository.config'] = $app->share(
+            function() use ($app) {
+                return $app['orm.em']->getRepository('Plugin\PointsOnReferral\Entity\PointsOnReferralConfig');
+            }
+        );
+        $app['eccube.plugin.pointsonreferral.repository.customer'] = $app->share(
+            function() use ($app) {
+                return $app['orm.em']->getRepository('Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer');
+            }
+        );
     }
 
     public function boot(BaseApplication $app) {
