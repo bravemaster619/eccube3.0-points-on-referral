@@ -1,6 +1,6 @@
 Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer:
   type: entity
-  table: plg_PointsOnReferral_customer
+  table: plg_points_on_referral_customer
   repositoryClass: Plugin\PointsOnReferral\Repository\PointsOnReferralCustomerRepository
   uniqueConstraints:
     referral_code:
