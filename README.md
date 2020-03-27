@@ -11,11 +11,11 @@ PointsOnReferral is a plugin for [EC-CUBE v3.0](https://doc.ec-cube.net/) that r
 
 # Installation Guide
 ## By EC-CUBE Admin Dashboard
-    1. Download zip file
-    2. Upload the zip file in plugin management page
+### 1. Download zip file
+### 2. Upload the zip file in plugin management page
 ## By Console
 
-1. Install
+### 1. Install
 
 In root directory of the eccube project, run the following command in shell:
 ```console
@@ -23,19 +23,19 @@ $ php app/console plugin:develop install --code PointsOnReferral
 
 ```
 
-2. Enable
+### 2. Enable
 
 In root directory of the eccube project, run the following command in shell:
 ```console
 $ php app/console plugin:develop enable --code PointsOnReferral
 ```
-3. Disable
+### 3. Disable
 
 ```console
 $ php app/console plugin:develop disable --code PointsOnReferral
 ```
 
-4. Uninstall
+### 4. Uninstall
 
 ```console
 $ php app/console plugin:develop uninstall --code PointsOnReferral
