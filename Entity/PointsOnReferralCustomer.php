@@ -3,11 +3,12 @@
 namespace Plugin\PointsOnReferral\Entity;
 
 use Eccube\Entity\Customer;
-use Plugin\Point\Entity\PointCustomer;
+
 
 /**
- * Class PointsOnReferralCustomer
- * @package Plugin\PointsOnReferral\Entity
+ * PointsOnReferralCustomer
+ *
+ *  @UniqueEntity("referral_code")
  */
 class PointsOnReferralCustomer extends \Eccube\Entity\AbstractEntity {
 
@@ -48,19 +49,10 @@ class PointsOnReferralCustomer extends \Eccube\Entity\AbstractEntity {
     private $Customer;
 
     /**
-     * @var PointCustomer
-     */
-    private $PointCustomer;
-
-    /**
      * @var Customer
      */
     private $ReferrerCustomer;
 
-    /**
-     * @var PointCustomer
-     */
-    private $ReferrerPointCustomer;
 
     /**
      * @return integer
@@ -173,33 +165,11 @@ class PointsOnReferralCustomer extends \Eccube\Entity\AbstractEntity {
     }
 
     /**
-     * @param $PointCustomer PointCustomer
-     * @return PointsOnReferralCustomer
-     */
-    public function setPointCustomer(PointCustomer $PointCustomer) {
-        $this->PointCustomer = $PointCustomer;
-        $this->setCustomer($PointCustomer->getCustomer());
-
-        return $this;
-    }
-
-    /**
      * @param $ReferrerCustomer Customer
      * @return PointsOnReferralCustomer
      */
     public function setReferrerCustomer(Customer $ReferrerCustomer) {
         $this->ReferrerCustomer = $ReferrerCustomer;
-
-        return $this;
-    }
-
-    /**
-     * @param $ReferrerPointCustomer PointCustomer
-     * @return PointsOnReferralCustomer
-     */
-    public function setReferrerPointCustomer(PointCustomer $ReferrerPointCustomer) {
-        $this->ReferrerPointCustomer = $ReferrerPointCustomer;
-        $this->setReferrerCustomer($ReferrerPointCustomer->getCustomer());
 
         return $this;
     }
