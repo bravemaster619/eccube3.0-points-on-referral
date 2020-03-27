@@ -30,6 +30,13 @@ class PluginManager extends AbstractPluginManager {
             throw new DependencyNotFoundException();
         }
         $this->migrationSchema($app, __DIR__ . '/Resource/doctrine/migration', $config['code']);
+        $PluginConfigRepository = $app['orm.em']->getRepository('Plugin\PointsOnReferral\Entity\PointsOnReferralConfig');
+        // check if the configuration exists
+        $Config = $PluginConfigRepository->getConfig();
+        if (!$Config) {
+            // if the configuration does not exist, seed the default one
+            $PluginConfigRepository->seed();
+        }
     }
 
     public function disable($config, $app) {
