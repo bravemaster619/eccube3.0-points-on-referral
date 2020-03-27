@@ -29,7 +29,8 @@ class PointsOnReferralConfigRepository extends EntityRepository {
         $Config = new PointsOnReferralConfig();
         $Config->setReferrerRewards(0)
             ->setRefereeRewards(0)
-            ->setReferrerRewards(true)
+            ->setReferrerRewards(0)
+            ->setReferrerRewardsEnabled(true)
             ->setRefereeRewardsEnabled(true)
             ->setCreateDate(date_create())
             ->setUpdateDate(date_create());
