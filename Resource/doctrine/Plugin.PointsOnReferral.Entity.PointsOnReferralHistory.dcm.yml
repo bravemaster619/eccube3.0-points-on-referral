@@ -52,16 +52,20 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralHistory:
       nullable: true
     referrer_rewards:
       type: integer
-      default: '0'
+      options:
+        default: 0
     referee_rewards:
       type: integer
-      default: '0'
+      options:
+        default: 0
     referrer_show:
       type: smallint
-      default: '1'
+      options:
+        default: 1
     referee_show:
       type: smallint
-      default: '1'
+      options:
+        default: 1
     referrer_read_date:
       type: datetime
       nullable: true
@@ -73,4 +77,5 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralHistory:
       nullable: false
     del_flg:
       type: smallint
-      default: '0'
+      options:
+        default: 0
