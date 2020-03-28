@@ -11,7 +11,8 @@ class Version20200327160700 extends AbstractMigration {
 
     protected $entities = array(
         'Plugin\PointsOnReferral\Entity\PointsOnReferralConfig',
-        'Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer'
+        'Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer',
+        'Plugin\PointsOnReferral\Entity\PointsOnReferralHistory'
     );
 
     public function up(Schema $schema) {
