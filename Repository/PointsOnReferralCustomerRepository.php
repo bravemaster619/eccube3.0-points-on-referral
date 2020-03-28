@@ -73,26 +73,27 @@ class PointsOnReferralCustomerRepository extends EntityRepository {
      * <ul>
      *   <li> Any customer missing in Customer table will be also deleted from PoRCustomer table </li>
      *   <li> Any customer missing in PoRCustomer table will be added with referral codes </li>
-     *   <li> Any PoRCustomer missing a referral code will be assigned a new referral code </li>
      * </ul>
      * @param $app
      */
     public function updateAll($app) {
-        $ActiveCustomers = $app['eccube.repository.customer']->findAll();
-        $PoRHelper = new PointsOnReferralHelper($app);
+        // get all customers including soft deleted ones
+        $app['orm.em']->getFilters()->disable('soft_delete');
+        $AllCustomers = $app['orm.em']->createQueryBuilder()
+            ->select('c')
+            ->from('Eccube\Entity\Customer', 'c')
+            ->getQuery()
+            ->execute();
         $processedCustomerIds = array();
-        foreach($ActiveCustomers as $Customer) {
+        foreach($AllCustomers as $Customer) {
             $PoRCustomer = $this->findOrCreateByCustomer($app, $Customer);
-            if (!$PoRCustomer->getReferralCode()) {
-                $PoRCustomer->setReferralCode($PoRHelper->generateReferralCode());
-                $PoRCustomer->setUpdateDate(date_create());
-                $app['orm.em']->persist($PoRCustomer);
-            }
+            // if PoRCustomer is a new instance, persist it
             if (!$PoRCustomer->getPointsOnReferralCustomerId()) {
                 $app['orm.em']->persist($PoRCustomer);
             }
             $processedCustomerIds[] = $Customer->getId();
         }
+        // delete all rows missing Customer
         $qb = $this->createQueryBuilder('p');
         $query = $qb->where('p.customer_id NOT IN (:processed_ids)')
             ->setParameter('processed_ids', $processedCustomerIds, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
@@ -100,6 +101,8 @@ class PointsOnReferralCustomerRepository extends EntityRepository {
             ->getQuery();
         $query->execute();
         $app['orm.em']->flush();
+        // re-enable soft_delete filter
+        $app['orm.em']->getFilters()->enable('soft_delete');
     }
 
 }
