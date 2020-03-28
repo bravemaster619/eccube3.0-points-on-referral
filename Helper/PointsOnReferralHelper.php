@@ -24,7 +24,7 @@ class PointsOnReferralHelper {
      * @return string
      */
     public function generateReferralCode() {
-        $PoRCustomerRepo = $this->app['eccube.plugin.pointsonreferral.repository.customer'];
+        $PoRCustomerRepo = $this->app['orm.em']->getRepository('Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer');
         do {
             $referral_code = strtoupper(Str::random(16) . time());
         } while($PoRCustomerRepo->findOneByReferralCode($referral_code));
