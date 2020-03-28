@@ -2,15 +2,105 @@
 
 namespace Eccube\Tests\Event;
 
+use Eccube\Entity\Customer;
 use Eccube\Tests\EccubeTestCase;
+use Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer;
 
 class OnFrontEntryCompleteTest extends EccubeTestCase {
 
-    public function test() {
+    public function testReferral() {
+        $PoRReferrer = $this->createPoRReferrer();
+        $Referrer = $PoRReferrer->getCustomer();
+        $PoRReferee = $this->createPoRReferee($Referrer, $PoRReferrer);
+        $this->assertNotEmpty($PoRReferee->getPointsOnReferralCustomerId(), "PoRCustomer should be created when a customer is signed up");
+        $this->expected = $Referrer->getId();
+        $this->actual = $PoRReferee->getReferrerId();
+        $this->verify("New customer should be referred by the one created earlier");
+    }
+
+    public function testReferrerRewards() {
+        $PoRConfig = $this->app['eccube.plugin.pointsonreferral.repository.config']->getConfig();
+        $PoRConfig->setReferrerRewardsEnabled(true)
+            ->setReferrerRewards(2500)
+            ->setRefereeRewardsEnabled(false);
+        $this->app['eccube.plugin.pointsonreferral.repository.config']->save($PoRConfig);
+        $PoRReferrer = $this->createPoRReferrer();
+        $Referrer = $PoRReferrer->getCustomer();
+        $PoRReferee = $this->createPoRReferee($Referrer, $PoRReferrer);
+        $Referee = $PoRReferee->getCustomer();
+        $this->activateCustomer($Referee);
+        $PoRHistory = $this->app['eccube.plugin.pointsonreferral.repository.history']->findOneBy(array(), array('plg_pointsonreferral_history_id' => 'DESC'));
+        $this->assertEquals($PoRConfig->getReferrerRewards(), $PoRHistory->getReferrerRewards(), "Referrer should receive rewards");
+        $this->assertEquals(0, $PoRHistory->getRefereeRewards(), "Referee should not receive rewards");
+    }
+
+    public function testRefereeRewards() {
+        $PoRConfig = $this->app['eccube.plugin.pointsonreferral.repository.config']->getConfig();
+        $PoRConfig->setReferrerRewardsEnabled(false)
+            ->setReferrerRewards(2500)
+            ->setRefereeRewardsEnabled(true)
+            ->setRefereeRewards(3500);
+        $this->app['eccube.plugin.pointsonreferral.repository.config']->save($PoRConfig);
+        $PoRReferrer = $this->createPoRReferrer();
+        $Referrer = $PoRReferrer->getCustomer();
+        $PoRReferee = $this->createPoRReferee($Referrer, $PoRReferrer);
+        $Referee = $PoRReferee->getCustomer();
+        $this->activateCustomer($Referee);
+        $PoRHistory = $this->app['eccube.plugin.pointsonreferral.repository.history']->findOneBy(array(), array('plg_pointsonreferral_history_id' => 'DESC'));
+        $this->assertEquals(0, $PoRHistory->getReferrerRewards(), "Referrer should not receive rewards");
+        $this->assertEquals($PoRConfig->getRefereeRewards(), $PoRHistory->getRefereeRewards(), "Referee should receive rewards");
+    }
+
+    public function testBothRewards() {
+        $PoRConfig = $this->app['eccube.plugin.pointsonreferral.repository.config']->getConfig();
+        $PoRConfig->setReferrerRewardsEnabled(true)
+            ->setReferrerRewards(4200)
+            ->setRefereeRewardsEnabled(true)
+            ->setRefereeRewards(3600);
+        $this->app['eccube.plugin.pointsonreferral.repository.config']->save($PoRConfig);
+        $PoRReferrer = $this->createPoRReferrer();
+        $Referrer = $PoRReferrer->getCustomer();
+        $PoRReferee = $this->createPoRReferee($Referrer, $PoRReferrer);
+        $Referee = $PoRReferee->getCustomer();
+        $this->activateCustomer($Referee);
+        $PoRHistory = $this->app['eccube.plugin.pointsonreferral.repository.history']->findOneBy(array(), array('plg_pointsonreferral_history_id' => 'DESC'));
+        $this->assertEquals($PoRConfig->getReferrerRewards(), $PoRHistory->getReferrerRewards(), "Referrer should receive rewards");
+        $this->assertEquals($PoRConfig->getRefereeRewards(), $PoRHistory->getRefereeRewards(), "Referee should receive rewards");
+    }
+
+    public function testDisabledRewards() {
+        $PoRConfig = $this->app['eccube.plugin.pointsonreferral.repository.config']->getConfig();
+        $PoRConfig->setReferrerRewardsEnabled(false)
+            ->setReferrerRewards(1400)
+            ->setRefereeRewardsEnabled(false)
+            ->setRefereeRewards(700);
+        $this->app['eccube.plugin.pointsonreferral.repository.config']->save($PoRConfig);
+        $PoRReferrer = $this->createPoRReferrer();
+        $Referrer = $PoRReferrer->getCustomer();
+        $PoRReferee = $this->createPoRReferee($Referrer, $PoRReferrer);
+        $Referee = $PoRReferee->getCustomer();
+        $this->activateCustomer($Referee);
+        $PoRHistory = $this->app['eccube.plugin.pointsonreferral.repository.history']->findOneBy(array(), array('plg_pointsonreferral_history_id' => 'DESC'));
+        $this->assertEquals(0, $PoRHistory->getReferrerRewards(), "Referrer should not receive rewards");
+        $this->assertEquals(0, $PoRHistory->getRefereeRewards(), "Referee should not receive rewards");
+    }
+
+    /**
+     * @return PointsOnReferralCustomer
+     */
+    public function createPoRReferrer() {
         $Referrer = $this->createCustomer();
         $PoRReferrer = $this->app['eccube.plugin.pointsonreferral.repository.customer']->findOrCreateByCustomer($this->app, $Referrer);
         $this->app['orm.em']->persist($PoRReferrer);
         $this->app['orm.em']->flush();
+        return $PoRReferrer;
+    }
+    /**
+     * @param $Referrer Customer
+     * @param $PoRReferrer PointsOnReferralCustomer
+     * @return PointsOnReferralCustomer
+     */
+    public function createPoRReferee(Customer $Referrer, PointsOnReferralCustomer $PoRReferrer) {
         $query_key = $this->app['config']['PointsOnReferral']['const']['referral_code_query_key'];
         $session_key = $this->app['config']['PointsOnReferral']['const']['session_key'];
         $crawler = $this->createClient()->request(
@@ -29,13 +119,17 @@ class OnFrontEntryCompleteTest extends EccubeTestCase {
         $Referee = $this->app['eccube.repository.customer']->findOneBy(array(
             'email' => $userData['email']['first']
         ));
-        $this->assertEmpty($this->app['session']->get($session_key), "Referral code should be removed from the session after signup");
-
         $PoRReferee = $this->app['eccube.plugin.pointsonreferral.repository.customer']->findOrCreateByCustomer($this->app, $Referee);
-        $this->assertNotEmpty($PoRReferee->getPointsOnReferralCustomerId(), "PoRCustomer should be created when a customer is signed up");
-        $this->expected = $Referrer->getId();
-        $this->actual = $PoRReferee->getReferrerId();
-        $this->verify("New customer should be referred by the one created earlier");
+        return $PoRReferee;
+    }
+
+    public function activateCustomer(Customer $Customer) {
+        $crawler = $this->createClient()->request(
+            'GET',
+            $this->app->path('entry_activate', array(
+                'secret_key' => $Customer->getSecretKey()
+            ))
+        );
     }
 
     public function createSignupFormData() {
