@@ -21,6 +21,11 @@ class PointsOnReferralServiceProvider implements ServiceProviderInterface {
                 return $app['orm.em']->getRepository('Plugin\PointsOnReferral\Entity\PointsOnReferralCustomer');
             }
         );
+        // register form type
+        $app['form.types'] = $app->share($app->extend('form.types', function ($types) use ($app) {
+            $types[] = new \Plugin\PointsOnReferral\Form\Type\PointsOnReferralConfigType($app);
+            return $types;
+        }));
     }
 
     public function boot(BaseApplication $app) {
