@@ -1,1 +1,7 @@
 admin.plugin.enable.error.point_not_found: Point plugin is not enabled.
+admin.form.rewards.referrer.enabled.label: Enable referrer rewards
+admin.form.rewards.referrer.point.label: Referrer rewards point
+admin.form.rewards.referrer.point.placeholder: Please input referrer rewards point
+admin.form.rewards.referee.enabled.label: Enable referee rewards
+admin.form.rewards.referee.point.label: Referee rewards point
+admin.form.rewards.referee.point.placeholder: Please input referee rewards point

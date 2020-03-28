@@ -1,1 +1,8 @@
 admin.plugin.enable.error.point_not_found: Point plugin is not enabled.
+admin.form.rewards.title: 友達紹介ポイント設定
+admin.form.rewards.referrer.enabled.label: 紹介元会員にポイント付与
+admin.form.rewards.referrer.point.label: Referrer rewards point
+admin.form.rewards.referrer.point.placeholder: Please input referrer rewards point
+admin.form.rewards.referee.enabled.label: 紹介先会員にポイント付与
+admin.form.rewards.referee.point.label: Referee rewards point
+admin.form.rewards.referee.point.placeholder: Please input referee rewards point
