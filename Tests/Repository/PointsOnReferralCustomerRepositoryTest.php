@@ -41,13 +41,16 @@ class PointsOnReferralCustomerRepositoryTest extends EccubeTestCase {
 
     public function testUpdateAllCustomers() {
         // check if customers count and PoRcustomer count are equal
+        $this->app['eccube.plugin.pointsonreferral.repository.customer']->updateAll($this->app);
+        $this->assertEquals(count($this->app['eccube.repository.customer']->findAll()), count($this->app['eccube.plugin.pointsonreferral.repository.customer']->findAll()));
+        // check if customers count and PoRcustomer count are equal after insertion
         $Customers = array();
         $count = 10;
         for($i = 0; $i < $count; $i++) {
             $Customers[] = $this->createCustomer();
         }
         $this->app['eccube.plugin.pointsonreferral.repository.customer']->updateAll($this->app);
-        $this->assertEquals($count, count($this->app['eccube.plugin.pointsonreferral.repository.customer']->findAll()));
+        $this->assertEquals(count($this->app['eccube.repository.customer']->findAll()), count($this->app['eccube.plugin.pointsonreferral.repository.customer']->findAll()));
 
         // check if customers count and PoRcustomer count are equal after force deletion of customers
         $deleteCount = 6;
@@ -59,16 +62,8 @@ class PointsOnReferralCustomerRepositoryTest extends EccubeTestCase {
             ->setParameter('last_id', $Customers[$deleteCount]->getId())
             ->getQuery();
         $query->execute();
-        // check customers are deleted
-        $this->assertEquals($count - $deleteCount, count($this->app['eccube.repository.customer']->findAll()));
         $this->app['eccube.plugin.pointsonreferral.repository.customer']->updateAll($this->app);
-        // check if customers count and PoRcustomer count are equal
-        $this->assertEquals($count - $deleteCount, count($this->app['eccube.plugin.pointsonreferral.repository.customer']->findAll()));
-
-        // check if customers count and PoRcustomer count are equal after insertion of one customer
-        $Customer = $this->createCustomer();
-        $this->app['eccube.plugin.pointsonreferral.repository.customer']->updateAll($this->app);
-        $this->assertEquals($count - $deleteCount + 1, count($this->app['eccube.plugin.pointsonreferral.repository.customer']->findAll()));
+        $this->assertEquals(count($this->app['eccube.repository.customer']->findAll()), count($this->app['eccube.plugin.pointsonreferral.repository.customer']->findAll()));
     }
 
     public function createCustomer($email = null)
