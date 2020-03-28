@@ -65,38 +65,4 @@ class PointsOnReferralCustomerRepositoryTest extends EccubeTestCase {
         $this->app['eccube.plugin.pointsonreferral.repository.customer']->updateAll($this->app);
         $this->assertEquals(count($this->app['eccube.repository.customer']->findAll()), count($this->app['eccube.plugin.pointsonreferral.repository.customer']->findAll()));
     }
-
-    public function createCustomer($email = null)
-    {
-        $faker = $this->getFaker();
-        $Customer = new Customer();
-        if (is_null($email)) {
-            $email = $faker->email;
-        }
-        $Status = $this->app['orm.em']->getRepository('Eccube\Entity\Master\CustomerStatus')->find(CustomerStatus::ACTIVE);
-        $Pref = $this->app['eccube.repository.master.pref']->find(1);
-        $Customer
-            ->setName01($faker->lastName)
-            ->setName02($faker->firstName)
-            ->setEmail($email)
-            ->setPref($Pref)
-            ->setPassword('password')
-            ->setSecretKey($this->app['eccube.repository.customer']->getUniqueSecretKey($this->app))
-            ->setStatus($Status)
-            ->setDelFlg(0);
-        $Customer->setPassword($this->app['eccube.repository.customer']->encryptPassword($this->app, $Customer));
-        $this->app['orm.em']->persist($Customer);
-        $this->app['orm.em']->flush();
-
-        $CustomerAddress = new CustomerAddress();
-        $CustomerAddress
-            ->setCustomer($Customer)
-            ->setDelFlg(0);
-        $CustomerAddress->copyProperties($Customer);
-        $this->app['orm.em']->persist($CustomerAddress);
-        $this->app['orm.em']->flush();
-
-        return $Customer;
-    }
-
 }

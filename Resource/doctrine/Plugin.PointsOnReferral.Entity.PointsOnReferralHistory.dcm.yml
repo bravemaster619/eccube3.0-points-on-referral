@@ -1,0 +1,76 @@
+Plugin\PointsOnReferral\Entity\PointsOnReferralHistory:
+  type: entity
+  table: plg_points_on_referral_history
+  repositoryClass: Plugin\PointsOnReferral\Repository\PointsOnReferralHistoryRepository
+  id:
+    pointsonreferral_history_id:
+      type: integer
+      nullable: false
+      unsigned: false
+      id: true
+      column: plg_pointsonreferral_history_id
+      generator:
+        strategy: AUTO
+  fields:
+    referrer_id:
+      type: integer
+      nullable: false
+      unsigned: false
+    referrer_email:
+      type: string
+      nullabel: false
+    referrer_name01:
+      type: string
+      nullable: true
+    referrer_name02:
+      type: string
+      nullable: true
+    referrer_kana01:
+      type: string
+      nullable: true
+    referrer_kana02:
+      type: string
+      nullable: true
+    referee_id:
+      type: integer
+      nullable: false
+      unsigned: false
+    referee_email:
+      type: string
+      nullable: false
+    referee_name01:
+      type: string
+      nullable: true
+    referee_name02:
+      type: string
+      nullable: true
+    referee_kana01:
+      type: string
+      nullable: true
+    referee_kana02:
+      type: string
+      nullable: true
+    referrer_rewards:
+      type: integer
+      default: '0'
+    referee_rewards:
+      type: integer
+      default: '0'
+    referrer_show:
+      type: smallint
+      default: '1'
+    referee_show:
+      type: smallint
+      default: '1'
+    referrer_read_date:
+      type: datetime
+      nullable: true
+    referee_read_date:
+      type: datetime
+      nullable: true
+    create_date:
+      type: datetime
+      nullable: false
+    del_flg:
+      type: smallint
+      default: '0'
