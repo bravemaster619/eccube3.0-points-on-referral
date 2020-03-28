@@ -13,7 +13,7 @@ class PointsOnReferralHistory extends \Eccube\Entity\AbstractEntity {
     /**
      * @var integer
      */
-    private $pointsonreferral_history_id;
+    private $plg_pointsonreferral_history_id;
 
     /**
      * @var integer
@@ -119,7 +119,7 @@ class PointsOnReferralHistory extends \Eccube\Entity\AbstractEntity {
      * @return integer
      */
     public function getId() {
-        return $this->pointsonreferral_history_id;
+        return $this->plg_pointsonreferral_history_id;
     }
 
     /**

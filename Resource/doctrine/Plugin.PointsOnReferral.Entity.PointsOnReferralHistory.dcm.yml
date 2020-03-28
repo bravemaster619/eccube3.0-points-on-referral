@@ -3,7 +3,7 @@ Plugin\PointsOnReferral\Entity\PointsOnReferralHistory:
   table: plg_points_on_referral_history
   repositoryClass: Plugin\PointsOnReferral\Repository\PointsOnReferralHistoryRepository
   id:
-    pointsonreferral_history_id:
+    plg_pointsonreferral_history_id:
       type: integer
       nullable: false
       unsigned: false
