@@ -5,15 +5,22 @@ use Eccube\Plugin\AbstractPluginManager;
 use Plugin\PointsOnReferral\Exception\DependencyNotFoundException;
 use Plugin\PointsOnReferral\ServiceProvider\PointsOnReferralServiceProvider;
 use Plugin\PointsOnSignup\Service\UtilService;
+use Symfony\Component\Filesystem\Filesystem;
 
 class PluginManager extends AbstractPluginManager {
 
     public function install($config, $app) {
-
+        $file = new Filesystem();
+        $file->copy(
+            __DIR__ . '/Resource/assets/css/admin.css',
+            $app['config']['plugin_html_realdir'] . "/" . $config['code'] . "/admin.css"
+        );
     }
 
     public function uninstall($config, $app) {
         $this->migrationSchema($app, __DIR__ . '/Resource/doctrine/migration', $config['code'], 0);
+        $file = new Filesystem();
+        $file->remove($app['config']['plugin_html_realdir'] . "/" . $config['code']);
     }
 
     public function enable($config, $app) {
