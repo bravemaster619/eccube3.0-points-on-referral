@@ -3,7 +3,6 @@
 
 namespace Plugin\PointsOnReferral\Form\Type;
 
-use Eccube\Common\Constant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
