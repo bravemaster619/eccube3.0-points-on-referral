@@ -1,5 +1,11 @@
 eccube.event.route.point_info.controller:
   - [onRouteAdminPointInfoController, NORMAL]
 
+front.entry.index.initialize:
+  - [onFrontEntryInitialize, NORMAL]
+
+front.entry.index.complete:
+  - [onFrontEntryComplete, NORMAL]
+
 Admin/Point/Resource/template/admin/pointinfo.twig:
   - [onAdminPointInfoRender, NORMAL]

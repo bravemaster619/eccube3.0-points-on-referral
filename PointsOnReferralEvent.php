@@ -2,10 +2,10 @@
 
 namespace Plugin\PointsOnReferral;
 
+use Eccube\Event\EventArgs;
 use Eccube\Event\TemplateEvent;
 use Plugin\PointsOnReferral\Exception\UnprocessableEntityException;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class PointsOnReferralEvent {
 
@@ -70,6 +70,48 @@ class PointsOnReferralEvent {
         $event->setParameters(array_merge($parameters, array(
             'por_form' => $this->form->createView()
         )));
+    }
+
+    public function onFrontEntryInitialize(EventArgs $event) {
+        $request = $event->getRequest();
+        $query_key = $this->app['config']['PointsOnReferral']['const']['referral_code_query_key'];
+        $session_key = $this->app['config']['PointsOnReferral']['const']['session_key'];
+        $referral_code = $request->get($query_key);
+        if ($referral_code) {
+            $this->app['session']->set($session_key, $referral_code);
+        }
+    }
+
+    public function onFrontEntryComplete(EventArgs $event) {
+        $session_key = $this->app['config']['PointsOnReferral']['const']['session_key'];
+        $referral_code = $this->app['session']->get($session_key);
+        $this->app['session']->remove($session_key);
+
+        $Referee = $event->getArgument('Customer');
+        $PoRReferee = $this->app['eccube.plugin.pointsonreferral.repository.customer']->findOrCreateByCustomer($this->app, $Referee);
+        $this->app['orm.em']->persist($PoRReferee);
+        $this->app['orm.em']->flush();
+
+        if (!$referral_code) {
+            return;
+        }
+
+        $PoRReferrer = $this->app['eccube.plugin.pointsonreferral.repository.customer']->findOneByReferralCode($referral_code);
+
+        if (!$PoRReferrer) {
+            return;
+        }
+
+        $Referrer = $this->app['eccube.repository.customer']->find($PoRReferrer->getCustomerId());
+
+        if (!$Referrer) {
+            return;
+        }
+
+        $PoRReferee->setReferrerId($Referrer->getId());
+        $this->app['orm.em']->persist($PoRReferee);
+        $this->app['orm.em']->flush();
+        return;
     }
 
 }
