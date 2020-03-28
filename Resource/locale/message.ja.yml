@@ -6,3 +6,7 @@ admin.form.rewards.referrer.point.placeholder: Please input referrer rewards poi
 admin.form.rewards.referee.enabled.label: 紹介先会員にポイント付与
 admin.form.rewards.referee.point.label: Referee rewards point
 admin.form.rewards.referee.point.placeholder: Please input referee rewards point
+history.action.rewards.referrer: ポイント(紹介元会員)
+history.action.rewards.referee: ポイント(紹介先会員)
+history.point.rewards.referrer: 紹介元
+history.point.rewards.referee: 紹介先

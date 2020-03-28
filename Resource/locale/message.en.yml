@@ -5,3 +5,7 @@ admin.form.rewards.referrer.point.placeholder: Please input referrer rewards poi
 admin.form.rewards.referee.enabled.label: Enable referee rewards
 admin.form.rewards.referee.point.label: Referee rewards point
 admin.form.rewards.referee.point.placeholder: Please input referee rewards point
+history.action.rewards.referrer: Referrer Rewards
+history.action.rewards.referee: Referee Rewards
+history.point.rewards.referrer: Referrer
+history.point.rewards.referee: Referee
