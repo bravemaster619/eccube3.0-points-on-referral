@@ -4,7 +4,9 @@ namespace Plugin\PointsOnReferral;
 
 use Eccube\Event\EventArgs;
 use Eccube\Event\TemplateEvent;
+use Plugin\PointsOnReferral\Entity\PointsOnReferralHistory;
 use Plugin\PointsOnReferral\Exception\UnprocessableEntityException;
+use Plugin\PointsOnReferral\Helper\PointsOnReferralHelper;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 class PointsOnReferralEvent {
@@ -112,6 +114,29 @@ class PointsOnReferralEvent {
         $this->app['orm.em']->persist($PoRReferee);
         $this->app['orm.em']->flush();
         return;
+    }
+
+    public function onFrontActivateComplete(EventArgs $event) {
+        $PoRHelper = new PointsOnReferralHelper($this->app);
+        $Referee = $event->getArgument('Customer');
+        $PoRReferee = $this->app['eccube.plugin.pointsonreferral.repository.customer']->findOrCreateByCustomer($this->app, $Referee);
+        if (!$PoRReferee->getReferrerId()) {
+            return;
+        }
+        $Referrer = $this->app['eccube.repository.customer']->find($PoRReferee->getReferrerId());
+        if (!$Referrer) {
+            return;
+        }
+        $PoRConfig = $this->app['eccube.plugin.pointsonreferral.repository.config']->getConfig();
+        $PoRHistory = $this->app['eccube.plugin.pointsonreferral.repository.history']->create($Referrer, $Referee, $PoRConfig);
+        if ($PoRHistory->getReferrerRewards()) {
+            $PoRHelper->addRewards($Referrer, $PoRHistory->getReferrerRewards(), PointsOnReferralHistory::REFERRER);
+        }
+        if ($PoRHistory->getRefereeRewards()) {
+            $PoRHelper->addRewards($Referee, $PoRHistory->getRefereeRewards(), PointsOnReferralHistory::REFEREE);
+        }
+        $this->app['orm.em']->persist($PoRHistory);
+        $this->app['orm.em']->flush();
     }
 
 }

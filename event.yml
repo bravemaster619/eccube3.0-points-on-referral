@@ -7,5 +7,8 @@ front.entry.index.initialize:
 front.entry.index.complete:
   - [onFrontEntryComplete, NORMAL]
 
+front.entry.activate.complete:
+  - [onFrontActivateComplete, NORMAL]
+
 Admin/Point/Resource/template/admin/pointinfo.twig:
   - [onAdminPointInfoRender, NORMAL]
