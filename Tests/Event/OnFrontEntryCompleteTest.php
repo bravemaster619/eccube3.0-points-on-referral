@@ -17,17 +17,25 @@ class OnFrontEntryCompleteTest extends EccubeTestCase {
             'GET',
             $this->app->path('entry') . "?" . $query_key . "=" . $PoRReferrer->getReferralCode()
         );
-        $this->assertNotEmpty($this->app['session']->get($session_key));
         $userData = $this->createSignupFormData();
         $crawler = $this->createClient()->request(
             'POST',
             $this->app['url_generator']->generate('entry'),
             array(
-                'mode' => 'confirm',
+                'mode' => 'complete',
                 'entry' => $userData
             )
         );
-        $this->assertEmpty($this->app['session']->get($session_key), "Referral code should be removed from session after signup");
+        $Referee = $this->app['eccube.repository.customer']->findOneBy(array(
+            'email' => $userData['email']['first']
+        ));
+        $this->assertEmpty($this->app['session']->get($session_key), "Referral code should be removed from the session after signup");
+
+        $PoRReferee = $this->app['eccube.plugin.pointsonreferral.repository.customer']->findOrCreateByCustomer($this->app, $Referee);
+        $this->assertNotEmpty($PoRReferee->getPointsOnReferralCustomerId(), "PoRCustomer should be created when a customer is signed up");
+        $this->expected = $Referrer->getId();
+        $this->actual = $PoRReferee->getReferrerId();
+        $this->verify("New customer should be referred by the one created earlier");
     }
 
     public function createSignupFormData() {
@@ -84,7 +92,6 @@ class OnFrontEntryCompleteTest extends EccubeTestCase {
             'job' => 1,
             '_token' => 'dummy'
         );
-        print_r($form);
         return $form;
     }
 
