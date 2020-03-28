@@ -7,3 +7,6 @@ orm.path:
   - /Resource/doctrine
 event:
   PointsOnReferralEvent
+const:
+  referral_code_query_key: referral_code
+  session_key: por_referral_code
