@@ -5,3 +5,5 @@ service:
   - PointsOnReferralServiceProvider
 orm.path:
   - /Resource/doctrine
+event:
+  PointsOnReferralEvent
