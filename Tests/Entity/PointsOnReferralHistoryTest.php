@@ -1,4 +1,5 @@
 <?php
+namespace Eccube\Tests\Entity;
 
 use Eccube\Tests\EccubeTestCase;
 use \Plugin\PointsOnReferral\Entity\PointsOnReferralHistory;
