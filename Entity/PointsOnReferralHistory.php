@@ -8,7 +8,7 @@ class PointsOnReferralHistory extends \Eccube\Entity\AbstractEntity {
 
     const REFERRER = 1;
     const REFEREE = 2;
-    const UNKNOWN = 3;
+    const UNKNOWN = 0;
 
     /**
      * @var integer
