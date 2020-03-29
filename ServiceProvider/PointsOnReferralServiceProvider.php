@@ -119,12 +119,8 @@ class PointsOnReferralServiceProvider implements ServiceProviderInterface {
             $web = new WebProcessor();
             $logger->pushProcessor($web);
 
-            // $uid = new UidProcessor(8);
-            // $logger->pushProcessor($uid);
-
             $process = new ProcessIdProcessor();
             $logger->pushProcessor($process);
-
 
             return $logger;
         });
