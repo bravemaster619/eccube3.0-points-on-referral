@@ -46,4 +46,34 @@ class PointsOnReferralHistoryRepository extends EntityRepository{
         return $PoRHistory;
     }
 
+    public function findReferralsByCustomer(Customer $Referrer) {
+        $qb = $this->createQueryBuilder('h');
+        $qb->where('h.referrer_id = :referrer_id')
+            ->andWhere('h.referrer_show = :show')
+            ->setParameters(array(
+                'referrer_id' => $Referrer->getId(),
+                'show' => Constant::ENABLED
+            ))
+            ->orderBy('h.plg_pointsonreferral_history_id', 'DESC')
+            ->orderBy('h.create_date', 'DESC')
+            ->select();
+        return $qb->getQuery()->execute();
+    }
+
+    public function getQueryBuilderByCustomer(Customer $Customer, $ownership = PointsOnReferralHistory::REFERRER) {
+        $qb = $this->createQueryBuilder('h');
+        if ($ownership === PointsOnReferralHistory::REFERRER) {
+            $qb->where('h.referrer_id = :customer_id');
+            $qb->andWhere('h.referrer_show = :show');
+        } else if ($ownership === PointsOnReferralHistory::REFEREE) {
+            $qb->where('h.referee_id = :customer_id');
+            $qb->andWhere('h.referee_show = :show');
+        }
+        $qb->setParameter('customer_id', $Customer->getId());
+        $qb->setParameter('show', Constant::ENABLED);
+        $qb->addOrderBy('h.plg_pointsonreferral_history_id', 'DESC');
+
+        return $qb;
+    }
+
 }

@@ -10,5 +10,31 @@ front.entry.index.complete:
 front.entry.activate.complete:
   - [onFrontActivateComplete, NORMAL]
 
+eccube.event.render.mypage.before:
+  - [onRenderMyPageBefore, NORMAL]
+eccube.event.render.mypage_change.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_change_complete.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_delivery.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_delivery_new.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_delivery_edit.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_favorite.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_history.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_mail_view.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_order.before:
+  - [onRenderMypageBefore, NORMAL]
+eccube.event.render.mypage_withdraw.before:
+  - [onRenderMypageBefore, NORMAL]
+
+eccube.event.render.mypage_referral.before:
+  - [onRenderMypageBefore, NORMAL]
+
 Admin/Point/Resource/template/admin/pointinfo.twig:
   - [onAdminPointInfoRender, NORMAL]

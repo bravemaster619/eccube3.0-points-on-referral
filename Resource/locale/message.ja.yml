@@ -10,3 +10,12 @@ history.action.rewards.referrer: ポイント(紹介元会員)
 history.action.rewards.referee: ポイント(紹介先会員)
 history.point.rewards.referrer: 紹介元
 history.point.rewards.referee: 紹介先
+front.mypage.referral.navi.link.title: ご紹介履歴
+front.mypage.referral.code.title: Referral Link
+front.mypage.referral.code.text: Copy and send this link to your friends to get free points!
+front.mypage.referral.history.title: ご紹介履歴
+front.mypage.referral.history.empty: ご紹介履歴がありません。
+front.mypage.referral.history.id: 履歴ID
+front.mypage.referral.history.referee_name: 紹介先会員
+front.mypage.referral.history.referral_awards: ポイント
+front.mypage.referral.history.create_date: 紹介日

@@ -1,0 +1,94 @@
+{% extends 'default_frame.twig' %}
+
+{% set mypageno= 'referral' %}
+
+{% set body_class = 'mypage' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ app.config.plugin_html_urlpath }}PointsOnReferral/default.min.css">
+{% endblock stylesheet %}
+
+
+{% block main %}
+
+<h1 class="page-heading">マイページ/{{ 'front.mypage.referral.navi.link.title' | trans }}</h1>
+
+<div id="detail_wrap" class="container-fluid">
+
+    {% include 'Mypage/navi.twig' %}
+    <div id="referral_box" class="row" data-mypageno="{{ mypageno }}">
+        <div id="referral_box__body" class="col-md-12">
+            <div id="referral_code_box" class="row">
+                <div id="referral_code_box__header" class="col-md-12">
+                    <h3>{{ 'front.mypage.referral.code.title' | trans }}</h3>
+                </div>
+                <div id="referral_code_box__body" class="col-md-12 ">
+                    <p>{{ 'front.mypage.referral.code.text' | trans }}</p>
+                    <div class="row">
+                        <div class="col-md-12 form-group form-inline">
+                            <span class="input-group" id="referral_code_box__input_group">
+                                <input id="referral_code_box__input_group__input" data-referral-code="{{ PoRCustomer.referral_code }}" type="text" readonly class="form-control" value="{{ url('entry') ~ "?" ~ app.config.PointsOnReferral.const.referral_code_query_key ~ "=" ~ PoRCustomer.referral_code }}"/>
+                                <span class="input-group-addon" id="referral_code_box__input_group__button">
+                                    <svg height="24" width="24" viewBox="-40 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m271 512h-191c-44.113281 0-80-35.886719-80-80v-271c0-44.113281 35.886719-80 80-80h191c44.113281 0 80 35.886719 80 80v271c0 44.113281-35.886719 80-80 80zm-191-391c-22.054688 0-40 17.945312-40 40v271c0 22.054688 17.945312 40 40 40h191c22.054688 0 40-17.945312 40-40v-271c0-22.054688-17.945312-40-40-40zm351 261v-302c0-44.113281-35.886719-80-80-80h-222c-11.046875 0-20 8.953125-20 20s8.953125 20 20 20h222c22.054688 0 40 17.945312 40 40v302c0 11.046875 8.953125 20 20 20s20-8.953125 20-20zm0 0"/></svg>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="referral_list_box" class="row">
+                <div id="referral_list_box__header" class="col-md-12">
+                    <h3>{{ 'front.mypage.referral.history.title' | trans }}</h3>
+                </div>
+                <div id="referral_list_box__body" class="col-md-12">
+
+                    {% if pagination.totalItemCount > 0 %}
+                        <p id="referral_list__total_count" class="intro"><strong>{{ pagination.totalItemCount }}件</strong>の履歴があります。</p>
+                        <div class="table-responsive">
+                            <table class="table" id="referral_list_box__body__table">
+                                <thead>
+                                <tr>
+                                    <th>{{ 'front.mypage.referral.history.id' | trans }}</th>
+                                    <th>{{ 'front.mypage.referral.history.referee_name' | trans }}</th>
+                                    <th>{{ 'front.mypage.referral.history.referral_awards' | trans }}</th>
+                                    <th>{{ 'front.mypage.referral.history.create_date' | trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for History in pagination %}
+                                <tr>
+                                    <td>{{ History.id }}</td>
+                                    <td>{{ History.referee_full_name }}</td>
+                                    <td>{{ History.referrer_rewards | number_format }}</td>
+                                    <td>{{ History.create_date | date_format("Y/m/d") }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% include "pagination.twig" with {'pages': pagination.paginationData} %}
+                    {% else %}
+                        {{ 'front.mypage.referral.history.empty' | trans }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}
+
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+   $("#referral_code_box__input_group__button").off('click').on('click', function() {
+      var $temp = $("<input>");
+      $("body").append($temp);
+      $temp.val($("#referral_code_box__input_group__input").val()).select();
+      document.execCommand("copy");
+      $temp.remove();
+   });
+})
+</script>
+{% endblock javascript %}

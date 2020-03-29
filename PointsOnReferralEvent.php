@@ -7,7 +7,10 @@ use Eccube\Event\TemplateEvent;
 use Plugin\PointsOnReferral\Entity\PointsOnReferralHistory;
 use Plugin\PointsOnReferral\Exception\UnprocessableEntityException;
 use Plugin\PointsOnReferral\Helper\PointsOnReferralHelper;
+use Plugin\PointsOnReferral\Helper\PointsOnReferralNavigationHelper;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class PointsOnReferralEvent {
 
@@ -117,26 +120,42 @@ class PointsOnReferralEvent {
     }
 
     public function onFrontActivateComplete(EventArgs $event) {
+        $this->app['monolog.logger.points_on_referral']->addInfo('front activate complete rewards start');
         $PoRHelper = new PointsOnReferralHelper($this->app);
         $Referee = $event->getArgument('Customer');
         $PoRReferee = $this->app['eccube.plugin.pointsonreferral.repository.customer']->findOrCreateByCustomer($this->app, $Referee);
+        $this->app['monolog.logger.points_on_referral']->addInfo('referee id: ' . $Referee->getId());
         if (!$PoRReferee->getReferrerId()) {
+            $this->app['monolog.logger.points_on_referral']->addInfo('referrer id not found');
             return;
         }
         $Referrer = $this->app['eccube.repository.customer']->find($PoRReferee->getReferrerId());
         if (!$Referrer) {
+            $this->app['monolog.logger.points_on_referral']->addInfo('referrer not found');
             return;
         }
+        $this->app['monolog.logger.points_on_referral']->addInfo('referrer id: ' . $Referrer->getId());
         $PoRConfig = $this->app['eccube.plugin.pointsonreferral.repository.config']->getConfig();
         $PoRHistory = $this->app['eccube.plugin.pointsonreferral.repository.history']->create($Referrer, $Referee, $PoRConfig);
         if ($PoRHistory->getReferrerRewards()) {
             $PoRHelper->addRewards($Referrer, $PoRHistory->getReferrerRewards(), PointsOnReferralHistory::REFERRER);
+            $this->app['monolog.logger.points_on_referral']->addInfo('referrer rewards: ' . $PoRHistory->getReferrerRewards());
         }
         if ($PoRHistory->getRefereeRewards()) {
             $PoRHelper->addRewards($Referee, $PoRHistory->getRefereeRewards(), PointsOnReferralHistory::REFEREE);
+            $this->app['monolog.logger.points_on_referral']->addInfo('referee rewards: ' . $PoRHistory->getRefereeRewards());
         }
         $this->app['orm.em']->persist($PoRHistory);
         $this->app['orm.em']->flush();
+        $this->app['monolog.logger.points_on_referral']->addInfo('front activate complete rewards end');
     }
+
+    public function onRenderMyPageBefore(FilterResponseEvent $event) {
+        $response = $event->getResponse();
+        $PoRNavHelper = new PointsOnReferralNavigationHelper($this->app);
+        $response->setContent($PoRNavHelper->addLink($response->getContent()));
+        $event->setResponse($response);
+    }
+
 
 }

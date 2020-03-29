@@ -1,0 +1,9 @@
+<script>
+    $(document).ready(function() {
+       let $nav = $("#navi_list");
+       if ($nav.length) {
+          let $link = $(`{{ link_html|default('')|raw }}`);
+          $link.appendTo($nav);
+       }
+    })
+</script>

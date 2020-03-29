@@ -1,0 +1,16 @@
+<script>
+   $(document).ready(function() {
+      if ($("#navi_list > li").length === 6) {
+         const style = `
+            <style>
+               @media(min-width:768px) {
+                  .local_nav.favorite > #navi_list > li {
+                     width: 25%;
+                  }
+               }
+            </style>
+          `;
+         $("body").append($(style));
+      }
+   });
+</script>

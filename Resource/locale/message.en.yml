@@ -1,4 +1,5 @@
 admin.plugin.enable.error.point_not_found: Point plugin is not enabled.
+admin.form.rewards.title: Referral Point Setting
 admin.form.rewards.referrer.enabled.label: Enable referrer rewards
 admin.form.rewards.referrer.point.label: Referrer rewards point
 admin.form.rewards.referrer.point.placeholder: Please input referrer rewards point
@@ -9,3 +10,12 @@ history.action.rewards.referrer: Referrer Rewards
 history.action.rewards.referee: Referee Rewards
 history.point.rewards.referrer: Referrer
 history.point.rewards.referee: Referee
+front.mypage.referral.navi.link.title: Referral History
+front.mypage.referral.code.title: Referral Link
+front.mypage.referral.code.text: Copy and send this link to your friends to get free points!
+front.mypage.referral.history.title: Referral History
+front.mypage.referral.history.empty: No referral history
+front.mypage.referral.history.id: History ID
+front.mypage.referral.history.referee_name: Referee
+front.mypage.referral.history.referral_awards: Rewards
+front.mypage.referral.history.create_date: Date

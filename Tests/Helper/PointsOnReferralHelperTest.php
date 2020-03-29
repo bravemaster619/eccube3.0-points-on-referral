@@ -4,6 +4,9 @@ namespace Eccube\Tests\Helper;
 
 use Eccube\Tests\EccubeTestCase;
 use Plugin\PointsOnReferral\Helper\PointsOnReferralHelper;
+use Plugin\PointsOnReferral\Helper\PointsOnReferralNavigationHelper;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class PointsOnReferralHelperTest extends EccubeTestCase {
 
