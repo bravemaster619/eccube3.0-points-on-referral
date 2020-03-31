@@ -1,21 +1,21 @@
-admin.plugin.enable.error.point_not_found: Point plugin is not enabled.
-admin.form.rewards.title: 友達紹介ポイント設定
-admin.form.rewards.referrer.enabled.label: 紹介元会員にポイント付与
-admin.form.rewards.referrer.point.label: Referrer rewards point
-admin.form.rewards.referrer.point.placeholder: Please input referrer rewards point
+admin.plugin.enable.error.point_not_found: お友達紹介ポイントプラグインを利用するにはポイントプラグインをインストール・有効にする必要があります。
+admin.form.rewards.title: お友達紹介ポイント設定
+admin.form.rewards.referrer.enabled.label: 紹介元会員にポイントを付与
+admin.form.rewards.referrer.point.label: 紹介元会員のポイント
+admin.form.rewards.referrer.point.placeholder: 紹介元会員のポイントを入力してください。
 admin.form.rewards.referee.enabled.label: 紹介先会員にポイント付与
-admin.form.rewards.referee.point.label: Referee rewards point
-admin.form.rewards.referee.point.placeholder: Please input referee rewards point
-history.action.rewards.referrer: ポイント(紹介元会員)
-history.action.rewards.referee: ポイント(紹介先会員)
+admin.form.rewards.referee.point.label: 紹介先会員のポイント
+admin.form.rewards.referee.point.placeholder: 紹介先会員のポイントを入力してください。
+history.action.rewards.referrer: ポイント(紹介元)
+history.action.rewards.referee: ポイント(紹介先)
 history.point.rewards.referrer: 紹介元
 history.point.rewards.referee: 紹介先
 front.mypage.referral.navi.link.title: ご紹介履歴
-front.mypage.referral.code.title: Referral Link
-front.mypage.referral.code.text: Copy and send this link to your friends to get free points!
+front.mypage.referral.code.title: 紹介用URL
+front.mypage.referral.code.text: 紹介用URLをコピーしてお友達にシェアすることでポイントを獲得できます。
 front.mypage.referral.history.title: ご紹介履歴
 front.mypage.referral.history.empty: ご紹介履歴がありません。
 front.mypage.referral.history.id: 履歴ID
 front.mypage.referral.history.referee_name: 紹介先会員
 front.mypage.referral.history.referral_awards: ポイント
-front.mypage.referral.history.create_date: 紹介日
+front.mypage.referral.history.create_date: 登録日
