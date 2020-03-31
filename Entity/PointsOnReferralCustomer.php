@@ -104,24 +104,10 @@ class PointsOnReferralCustomer extends \Eccube\Entity\AbstractEntity {
     }
 
     /**
-     * @return PointCustomer
-     */
-    public function getPointCustomer() {
-        return $this->PointCustomer;
-    }
-
-    /**
      * @return Customer
      */
     public function getReferrerCustomer() {
         return $this->ReferrerCustomer;
-    }
-
-    /**
-     * @return PointCustomer
-     */
-    public function getReferrerPointCustomer() {
-        return $this->ReferrerPointCustomer;
     }
 
     /**
