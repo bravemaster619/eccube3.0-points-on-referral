@@ -13,7 +13,6 @@ class PointsOnReferralMyPageController {
         }
         $Customer = $app['user'];
         $PoRCustomer = $app['eccube.plugin.pointsonreferral.repository.customer']->findOrCreateByCustomer($app, $Customer);
-//        $HistoriyList = $app['eccube.plugin.pointsonreferral.repository.history']->findReferralsByCustomer($Customer);
         $qb = $app['eccube.plugin.pointsonreferral.repository.history']->getQueryBuilderByCustomer($Customer);
         $pagination = $app['paginator']()->paginate(
             $qb,
@@ -25,7 +24,6 @@ class PointsOnReferralMyPageController {
             'pagination' => $pagination,
             'PoRCustomer' => $PoRCustomer
         ));
-//        return $app->renderView('MyPage/referral.twig');
     }
 
 }
